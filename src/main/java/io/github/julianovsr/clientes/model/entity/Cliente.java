@@ -1,11 +1,15 @@
 package io.github.julianovsr.clientes.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -20,12 +24,16 @@ public class Cliente {
     private Integer Id;
 
     @Column(nullable = false, length = 150)
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String nome;
 
     @Column(nullable = false, length = 11)
+    @NotNull(message = "{campo.cpf.obrigatorio}")
+    @CPF(message = "{campo.cpf.invalido}")
     private String cpf;
 
-    @Column(name = "data_cadastro")
+    @Column(name = "data_cadastro",updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
 
     @PrePersist
