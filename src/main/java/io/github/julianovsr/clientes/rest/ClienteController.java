@@ -8,19 +8,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin("http://localhost:4200")
 public class ClienteController {
 
 
-    private ClienteRepository repository;
+    private final ClienteRepository repository;
 
     @Autowired
     public ClienteController(ClienteRepository repository){
         this.repository = repository;
     }
 
+
+    @GetMapping
+    public List<Cliente> listaClientes(){
+        return this.repository.findAll();
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -34,7 +41,7 @@ public class ClienteController {
     public Cliente acharPorId(@PathVariable Integer id){
         return repository.
                     findById(id).
-                    orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                    orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
     }
 
     @DeleteMapping("{id}")
@@ -60,7 +67,7 @@ public class ClienteController {
                     repository.save(clienteAtualizado);
                     return Void.TYPE;
                 })
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
 
     }
 
