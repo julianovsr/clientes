@@ -1,6 +1,5 @@
 package io.github.julianovsr.clientes.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,7 @@ public class InternacionalizacaoConfig {
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
-        messageSource.setDefaultEncoding("ISO-8859-1");
+        messageSource.setDefaultEncoding("UTF-8");
         messageSource.setDefaultLocale(Locale.getDefault());
 
         return messageSource;
